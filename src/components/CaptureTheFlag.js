@@ -4,32 +4,39 @@ const BASE_URL =
   "https://wgg522pwivhvi5gqsn675gth3q0otdja.lambda-url.us-east-1.on.aws/656e63";
 
 function CaptureTheFlag() {
+  const [error, setError] = useState();
+  const [isLoading, setIsLoading] = useState(false);
   const [flag, setFlag] = useState("");
-  console.log("test");
+
   useEffect(() => {
     // async fetch
     const fetchFlag = async () => {
+      setIsLoading(true); // show loading screen until data is fetched via API
+      // try block to fetch flag
       try {
-        console.log("Fetching data from:", BASE_URL);
         const response = await fetch(BASE_URL);
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        // converting reponse to JSON
         const flag = await response.text();
-        setFlag(flag);
-        console.log(flag);
+        setFlag(flag); // load flag text into State
       } catch (error) {
-        console.error("Failed to fetch data:", error);
+        setError(error);
+      } finally {
+        setIsLoading(false); // reset to stop loading screen
       }
     };
     fetchFlag();
   }, []);
 
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Flag not found. Please try again.</div>;
+  }
+
   return (
     <div className="App">
-      <div>{flag ? <div>{flag}</div> : "Loading..."}</div>
+      <div>{flag}</div>
     </div>
   );
 }
