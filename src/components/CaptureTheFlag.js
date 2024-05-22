@@ -36,9 +36,39 @@ function CaptureTheFlag() {
 
   return (
     <div className="App">
-      <div>{flag}</div>
+      <ul>
+        {flag.split("").map((char, index) => (
+          <li key={index}>{char}</li>
+        ))}
+      </ul>
     </div>
   );
 }
 
 export default CaptureTheFlag;
+
+// JavaScript code snippet used to get URL for flag
+// document.addEventListener('DOMContentLoaded', function()
+// {
+// function findPattern() {
+// Find all <code> elements with the specified pattern
+// const codeElements = document.querySelectorAll('code[data-class^="23"]');
+// let URL = '';
+
+// codeElements.forEach(code => {
+// const div = code.querySelector('div[data-tag$="93"]');
+// if (div) {
+// const span = div.querySelector('span[data-id*="21"]');
+// if (span) {
+// const i = span.querySelector('i.char');
+// if (i) {
+// const value = i.getAttribute('value');
+// URL += value;
+// }
+// }
+// }
+// });
+// console.log(URL);
+// }
+// findPattern();
+// });
