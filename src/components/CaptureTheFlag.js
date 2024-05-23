@@ -25,6 +25,7 @@ function CaptureTheFlag() {
         const response = await fetch(BASE_URL);
         const flag = await response.text();
         setFlag(flag); // load flag text into State
+        startTypeWriter(flag, 20); // Start the typewriter effect with the fetched flag
       } catch (error) {
         setError(error);
       } finally {
@@ -32,7 +33,7 @@ function CaptureTheFlag() {
       }
     };
     fetchFlag();
-  }, [startTypewriter(flag, 20)]);
+  }, [startTypeWriter]);
 
   if (isLoading) {
     return <div>Loading...</div>;

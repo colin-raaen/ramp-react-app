@@ -33,11 +33,11 @@ const useTypeWriter = (onComplete) => {
         },
         Math.max(effectiveSpeed, 0),
       );
-    } else if (isTypeWriterRunning && currentIndex === sourceText.length) {
+    } else if (isTypeWriterRunning && currentIndex >= sourceText.length) {
       clearInterval(intervalRef.currentIndex);
       setIsTypeWriterRunning(false);
       if (onComplete) {
-        onComplete;
+        onComplete();
       }
     }
     // return function to cleanup
