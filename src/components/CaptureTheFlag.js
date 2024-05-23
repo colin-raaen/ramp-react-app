@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import useTypeWriter from "../hooks/useTypeWriter"; // import typewriter hook
 
 const BASE_URL =
   "https://wgg522pwivhvi5gqsn675gth3q0otdja.lambda-url.us-east-1.on.aws/656e63";
@@ -7,6 +8,13 @@ function CaptureTheFlag() {
   const [error, setError] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [flag, setFlag] = useState("");
+
+  const {
+    typeWriterText,
+    isTypeWriterRunning,
+    startTypeWriter,
+    stopTypeWriter,
+  } = useTypeWriter();
 
   useEffect(() => {
     // async fetch
@@ -24,7 +32,7 @@ function CaptureTheFlag() {
       }
     };
     fetchFlag();
-  }, []);
+  }, [startTypewriter(flag, 20)]);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -37,7 +45,7 @@ function CaptureTheFlag() {
   return (
     <div className="App">
       <ul>
-        {flag.split("").map((char, index) => (
+        {typeWriterText.split("").map((char, index) => (
           <li key={index}>{char}</li>
         ))}
       </ul>
