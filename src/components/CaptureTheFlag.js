@@ -9,12 +9,8 @@ function CaptureTheFlag() {
   const [isLoading, setIsLoading] = useState(false);
   const [flag, setFlag] = useState("");
 
-  const {
-    typeWriterText,
-    isTypeWriterRunning,
-    startTypeWriter,
-    stopTypeWriter,
-  } = useTypeWriter();
+  const { typeWriterText, isTypeWriterRunning, startTypeWriter } =
+    useTypeWriter();
 
   useEffect(() => {
     // async fetch
@@ -25,7 +21,6 @@ function CaptureTheFlag() {
         const response = await fetch(BASE_URL);
         const flag = await response.text();
         setFlag(flag); // load flag text into State
-        startTypeWriter(flag, 20); // Start the typewriter effect with the fetched flag
       } catch (error) {
         setError(error);
       } finally {
@@ -33,13 +28,22 @@ function CaptureTheFlag() {
       }
     };
     fetchFlag();
-  }, [startTypeWriter]);
+  }, []);
+
+  useEffect(() => {
+    if (flag) {
+      // if flag was loaded
+      startTypeWriter(flag, 500); // Start the typewriter effect with the fetched flag
+    }
+  }, [flag, startTypeWriter]);
 
   if (isLoading) {
+    // if flag fetch is occuring, show loading...
     return <div>Loading...</div>;
   }
 
   if (error) {
+    // if error found, return text
     return <div>Flag not found. Please try again.</div>;
   }
 

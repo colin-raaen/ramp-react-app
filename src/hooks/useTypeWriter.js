@@ -3,15 +3,16 @@ import { useState, useEffect, useRef } from "react";
 const useTypeWriter = (onComplete) => {
   const [isTypeWriterRunning, setIsTypeWriterRunning] = useState(false); // State to check if typewriter is running
   const [typeWriterText, setTypeWriterText] = useState(""); // typewriter text
-  const [speed, setSpeed] = useState(50);
+  const [speed, setSpeed] = useState(500);
   const [sourceText, setSourceText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
   const intervalRef = useRef(); // Store interval to output each letter at specified time interval
 
-  const maxSpeed = 100;
+  const maxSpeed = 500;
 
-  // get next character function
+  // function to get next character of string text
   const getNextChar = () => {
+    // Get the character at the current index
     const newChar = sourceText.charAt(currentIndex);
     // update current index to point at next index value
     setCurrentIndex((prevIndex) => prevIndex + 1);
@@ -22,10 +23,10 @@ const useTypeWriter = (onComplete) => {
   useEffect(() => {
     // if typewriter is running and still letters to print
     if (isTypeWriterRunning && currentIndex < sourceText.length) {
-      // calculate effective speed
-      const effectiveSpeed = maxSpeed - speed;
+      // set effective speed
+      const effectiveSpeed = speed;
       // use intervalRef to store return value of setInterval function
-      intervalRef.currentIndex = setInterval(
+      intervalRef.current = setInterval(
         () => {
           // callback function to update typewriter text
           //append next character to typeWriterText, call function to get next Char
@@ -56,17 +57,10 @@ const useTypeWriter = (onComplete) => {
     setIsTypeWriterRunning(true);
   }
 
-  function stopTypeWriter() {
-    setIsTypeWriterRunning(false);
-    setTypeWriterText("");
-    setCurrentIndex(0);
-  }
-
   return {
     typeWriterText,
     isTypeWriterRunning,
     startTypeWriter,
-    stopTypeWriter,
   };
 };
 
